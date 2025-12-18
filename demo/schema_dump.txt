@@ -1,0 +1,17 @@
+Field	Type	Null	Key	Default	Extra
+email	varchar(100)	NO	PRI	NULL	
+pwd	varchar(100)	NO		NULL	
+nick_name	varchar(50)	NO		NULL	
+reg_date	datetime	YES		CURRENT_TIMESTAMP	DEFAULT_GENERATED
+last_login	datetime	YES		NULL	
+Field	Type	Null	Key	Default	Extra
+bno	int	NO	PRI	NULL	auto_increment
+title	varchar(200)	NO		NULL	
+content	text	YES		NULL	
+writer	varchar(50)	NO		NULL	
+read_count	int	YES		0	
+is_del	char(1)	YES		N	
+reg_date	datetime	YES		CURRENT_TIMESTAMP	DEFAULT_GENERATED
+like_count	int	YES		0	
+is_secret	tinyint(1)	YES		0	
+password	varchar(100)	YES		NULL	

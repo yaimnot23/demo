@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html
+  lang="en"
+  xmlns:th="http://www.thymeleaf.org"
+  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorate="~{layout/layout}"
+>
+  <head>
+    <title>Board List</title>
+  </head>
+  <body>
+    <div layout:fragment="content">
+      <div class="container-sm mt-5">
+        <h3>Board List</h3>
+        <table class="table table-striped mt-3">
+          <thead>
+            <tr>
+              <th>BNO</th>
+              <th>Title</th>
+              <th>Writer</th>
+              <th>RegDate</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr th:each="bvo : ${list}">
+              <td th:text="${bvo.bno}"></td>
+              <td>
+                <a
+                  th:href="@{/board/detail(bno=${bvo.bno})}"
+                  th:text="${bvo.title}"
+                ></a>
+              </td>
+              <td th:text="${bvo.writer}"></td>
+              <td th:text="${bvo.regDate}"></td>
+            </tr>
+          </tbody>
+        </table>
+        <a href="/board/register" class="btn btn-primary float-end"
+          >Post Register</a
+        >
+      </div>
+    </div>
+  </body>
+</html>

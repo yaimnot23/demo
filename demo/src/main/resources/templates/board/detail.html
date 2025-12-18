@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html
+  lang="en"
+  xmlns:th="http://www.thymeleaf.org"
+  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorate="~{layout/layout}"
+>
+  <head>
+    <title>Board Detail</title>
+  </head>
+  <body>
+    <div layout:fragment="content">
+      <div class="container-sm mt-5">
+        <h3>Board Detail</h3>
+        <div class="mb-3">
+          <label class="form-label">Title</label>
+          <input
+            type="text"
+            class="form-control"
+            th:value="${boardVO.title}"
+            readonly
+          />
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Content</label>
+          <textarea
+            class="form-control"
+            rows="5"
+            th:text="${boardVO.content}"
+            readonly
+          ></textarea>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Writer</label>
+          <input
+            type="text"
+            class="form-control"
+            th:value="${boardVO.writer}"
+            readonly
+          />
+        </div>
+        <div class="mb-3">
+          <label class="form-label">RegDate</label>
+          <input
+            type="text"
+            class="form-control"
+            th:value="${boardVO.regDate}"
+            readonly
+          />
+        </div>
+        <a href="/board/list" class="btn btn-secondary">List</a>
+        <a href="#" class="btn btn-warning">Modify</a>
+        <a href="#" class="btn btn-danger">Delete</a>
+      </div>
+    </div>
+  </body>
+</html>
