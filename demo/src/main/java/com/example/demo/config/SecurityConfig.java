@@ -42,7 +42,7 @@ public class SecurityConfig {
         return http.csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(authorize -> authorize
                 .requestMatchers("/user/list").hasAnyRole("ADMIN")
-                .requestMatchers("/", "/index", "/js/**", "/board/list", "/board/detail", "/user/login", "/user/register").permitAll()
+                .requestMatchers("/", "/index", "/js/**", "/image/**", "/board/list", "/board/detail", "/user/login", "/user/register").permitAll()
                 .anyRequest().authenticated()
             )
             .formLogin(login -> login
@@ -57,7 +57,7 @@ public class SecurityConfig {
                 .logoutUrl("/user/logout")
                 .invalidateHttpSession(true)
                 .deleteCookies("JSESSIONID")
-                .logoutSuccessUrl("/board/list")
+                .logoutSuccessUrl("/")
                 .permitAll()
             )
             .build();

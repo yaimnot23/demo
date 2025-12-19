@@ -13,7 +13,12 @@
       <div class="container-sm mt-5">
         <h3>Board Detail</h3>
 
-        <form action="/board/modify" method="post" id="modForm">
+        <form
+          action="/board/modify"
+          method="post"
+          id="modForm"
+          enctype="multipart/form-data"
+        >
           <input type="hidden" name="bno" th:value="${boardVO.bno}" />
 
           <div class="mb-3">
@@ -58,15 +63,61 @@
               readonly
             />
           </div>
+
+          <!-- Image Display -->
+          <!-- Image Display -->
+          <div class="mb-3" th:if="${fileList != null and !fileList.isEmpty()}">
+            <label class="form-label">Images</label>
+            <div
+              th:each="fvo : ${fileList}"
+              class="d-flex align-items-center mb-2"
+            >
+              <div class="me-2">
+                <!-- If new upload with fileType=1 or filename ends with image extension -->
+                <img
+                  th:if="${fvo.fileType > 0 or #strings.endsWith(#strings.toLowerCase(fvo.fileName), '.jpg') or #strings.endsWith(#strings.toLowerCase(fvo.fileName), '.png') or #strings.endsWith(#strings.toLowerCase(fvo.fileName), '.jpeg') or #strings.endsWith(#strings.toLowerCase(fvo.fileName), '.gif')}"
+                  th:src="@{|/image/${fvo.uuid}_${fvo.fileName}|}"
+                  class="img-thumbnail"
+                  style="max-width: 300px"
+                />
+
+                <!-- Else (Download Link) -->
+                <a
+                  th:unless="${fvo.fileType > 0 or #strings.endsWith(#strings.toLowerCase(fvo.fileName), '.jpg') or #strings.endsWith(#strings.toLowerCase(fvo.fileName), '.png') or #strings.endsWith(#strings.toLowerCase(fvo.fileName), '.jpeg') or #strings.endsWith(#strings.toLowerCase(fvo.fileName), '.gif')}"
+                  th:href="@{|/image/${fvo.uuid}_${fvo.fileName}|}"
+                  th:download="${fvo.fileName}"
+                  class="btn btn-outline-secondary btn-sm"
+                >
+                  <i class="bi bi-paperclip"></i> [[${fvo.fileName}]]
+                </a>
+              </div>
+
+              <!-- Delete Button (Hidden by default, shown in modify mode) -->
+              <button
+                type="button"
+                class="btn btn-sm btn-danger file-del-btn"
+                th:data-uuid="${fvo.uuid}"
+                style="display: none"
+              >
+                X
+              </button>
+            </div>
+          </div>
+
+          <!-- File Input for Modify (Initially Hidden) -->
+          <div class="mb-3" id="fileInputDiv" style="display: none">
+            <label class="form-label">Add Files</label>
+            <input type="file" class="form-control" name="files" multiple />
+          </div>
         </form>
 
         <a href="/board/list" class="btn btn-secondary">List</a>
 
-        <!-- Modify/Delete buttons only for Writer or Admin -->
         <th:block sec:authorize="isAuthenticated()">
           <th:block
             th:if="${#authentication.name == boardVO.writer} or ${#authorization.expression('hasRole(''ADMIN'')')}"
           >
+            <!-- ${#authentication.principal.userVO.email == boardVO.writer}-->
             <button type="button" id="modBtn" class="btn btn-warning">
               Modify
             </button>

@@ -5,10 +5,16 @@
 <mapper namespace="com.example.demo.repository.UserDAO">
 
     <select id="selectUser" resultMap="userMap">
-        SELECT u.email, u.pwd, u.nick_name, u.reg_date, u.last_login, a.id, a.auth
+        SELECT u.email, u.pwd, u.nick_name, u.reg_date, u.last_login, u.profile_image, a.id, a.auth
         FROM member u
         LEFT JOIN auth a ON u.email = a.email
         WHERE u.email = #{email}
+    </select>
+    
+    <select id="getUserList" resultMap="userMap">
+        SELECT u.email, u.pwd, u.nick_name, u.reg_date, u.last_login, u.profile_image, a.id, a.auth
+        FROM member u
+        LEFT JOIN auth a ON u.email = a.email
     </select>
 
     <resultMap id="userMap" type="com.example.demo.domain.UserVO">
@@ -17,6 +23,7 @@
         <result property="nickName" column="nick_name"/>
         <result property="regDate" column="reg_date"/>
         <result property="lastLogin" column="last_login"/>
+        <result property="profileImage" column="profile_image"/>
         <collection property="authList" resultMap="authMap"/>
     </resultMap>
 
@@ -35,5 +42,25 @@
         INSERT INTO auth (email, auth)
         VALUES (#{email}, #{auth})
     </insert>
+
+    <update id="updateUser">
+        UPDATE member
+        <set>
+            <if test="pwd != null and pwd != ''">
+                pwd = #{pwd},
+            </if>
+            <if test="nickName != null and nickName != ''">
+                nick_name = #{nickName},
+            </if>
+            <if test="profileImage != null and profileImage != ''">
+                profile_image = #{profileImage},
+            </if>
+        </set>
+        WHERE email = #{email}
+    </update>
+    
+    <delete id="deleteUser">
+        DELETE FROM member WHERE email = #{email}
+    </delete>
 
 </mapper>

@@ -13,6 +13,7 @@ import java.util.List;
 @Service
 public class BoardServiceImpl implements BoardService {
     private final BoardDAO boardDAO;
+    private final com.example.demo.repository.FileDAO fileDAO;
 
     @Override
     public void register(com.example.demo.domain.BoardVO boardVO) {
@@ -41,6 +42,27 @@ public class BoardServiceImpl implements BoardService {
 
     @Override
     public int remove(int bno) {
+        fileDAO.deleteAllFiles(bno); // Remove files from DB before board
         return boardDAO.delete(bno);
+    }
+
+    @Override
+    public int registerFile(com.example.demo.domain.FileVO fvo) {
+        return fileDAO.insertFile(fvo);
+    }
+
+    @Override
+    public List<com.example.demo.domain.FileVO> getFileList(int bno) {
+        return fileDAO.getFileList(bno);
+    }
+    
+    @Override
+    public com.example.demo.domain.FileVO getFile(String uuid) {
+        return fileDAO.getFile(uuid);
+    }
+
+    @Override
+    public int deleteFile(String uuid) {
+        return fileDAO.deleteFile(uuid);
     }
 }

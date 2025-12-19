@@ -3,9 +3,9 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.demo.repository.BoardDAO">
-    <insert id="insert">
-        INSERT INTO board (title, content, writer, password)
-        VALUES (#{title}, #{content}, #{writer}, #{password})
+    <insert id="insert" useGeneratedKeys="true" keyProperty="bno">
+        INSERT INTO board (title, content, writer, password, is_secret)
+        VALUES (#{title}, #{content}, #{writer}, #{password}, #{isSecret})
     </insert>
 
     <sql id="search">

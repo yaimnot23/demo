@@ -16,5 +16,6 @@ public class UserVO {
     private String nickName;
     private String regDate;
     private String lastLogin;
+    private String profileImage;
     private List<AuthVO> authList;
 }

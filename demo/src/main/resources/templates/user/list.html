@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html
+  lang="en"
+  xmlns:th="http://www.thymeleaf.org"
+  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorate="~{layout/layout}"
+>
+  <head>
+    <title>User List</title>
+  </head>
+  <body>
+    <div layout:fragment="content">
+      <div class="container-sm mt-5">
+        <h3>User List</h3>
+        <table class="table table-hover mt-3">
+          <thead>
+            <tr>
+              <th>Profile</th>
+              <th>Email</th>
+              <th>Nickname</th>
+              <th>Reg Date</th>
+              <th>Last Login</th>
+              <th>Auth</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr th:each="u : ${list}">
+              <td>
+                <img
+                  th:if="${u.profileImage != null}"
+                  th:src="@{|/image/${u.profileImage}|}"
+                  class="rounded-circle"
+                  style="width: 40px; height: 40px; object-fit: cover"
+                />
+                <img
+                  th:unless="${u.profileImage != null}"
+                  src="https://via.placeholder.com/40"
+                  class="rounded-circle"
+                  style="width: 40px; height: 40px; object-fit: cover"
+                />
+              </td>
+              <td th:text="${u.email}"></td>
+              <td th:text="${u.nickName}"></td>
+              <td th:text="${u.regDate}"></td>
+              <td th:text="${u.lastLogin}"></td>
+              <td>
+                <span
+                  th:each="auth : ${u.authList}"
+                  th:text="${auth.auth} + ' '"
+                  class="badge bg-secondary me-1"
+                ></span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </body>
+</html>

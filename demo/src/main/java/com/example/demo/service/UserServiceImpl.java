@@ -36,4 +36,28 @@ public class UserServiceImpl implements UserService {
         // 마지막 로그인 시간 업데이트 로직 mapper 에 구현 아직 안함
         return 0; // 구현 예정
     }
+
+    @Override
+    public void modify(UserVO userVO) {
+        // 비밀번호가 있다면 암호화
+        if(userVO.getPwd() != null && !userVO.getPwd().isEmpty()) {
+            userVO.setPwd(passwordEncoder.encode(userVO.getPwd()));
+        }
+        userDAO.updateUser(userVO);
+    }
+
+    @Override
+    public void remove(String email) {
+        userDAO.deleteUser(email);
+    }
+
+    @Override
+    public UserVO getDetail(String email) {
+        return userDAO.selectUser(email);
+    }
+    
+    @Override
+    public java.util.List<UserVO> getUserList() {
+        return userDAO.getUserList();
+    }
 }

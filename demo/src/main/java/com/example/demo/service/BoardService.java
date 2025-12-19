@@ -12,4 +12,10 @@ public interface BoardService {
     int getTotalCount(PagingVO pgvo);
     void modify(BoardVO boardVO);
     int remove(int bno);
+    
+    // File related methods
+    int registerFile(com.example.demo.domain.FileVO fvo);
+    List<com.example.demo.domain.FileVO> getFileList(int bno);
+    com.example.demo.domain.FileVO getFile(String uuid);
+    int deleteFile(String uuid);
 }

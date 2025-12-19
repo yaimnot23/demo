@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html
+  lang="en"
+  xmlns:th="http://www.thymeleaf.org"
+  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorate="~{layout/layout}"
+>
+  <head>
+    <title>My Page</title>
+  </head>
+  <body>
+    <div layout:fragment="content">
+      <div class="container-sm mt-5" style="max-width: 600px">
+        <h3 class="mb-4">My Page</h3>
+
+        <div class="card">
+          <div class="card-body text-center">
+            <!-- Profile Image -->
+            <div class="mb-3">
+              <img
+                th:if="${userVO.profileImage != null}"
+                th:src="@{|/image/${userVO.profileImage}|}"
+                class="rounded-circle img-thumbnail"
+                style="width: 150px; height: 150px; object-fit: cover"
+              />
+              <img
+                th:unless="${userVO.profileImage != null}"
+                src="https://via.placeholder.com/150"
+                class="rounded-circle img-thumbnail"
+                style="width: 150px; height: 150px; object-fit: cover"
+              />
+            </div>
+
+            <h4 th:text="${userVO.nickName}">Nickname</h4>
+            <p class="text-muted" th:text="${userVO.email}">
+              email@example.com
+            </p>
+
+            <hr />
+
+            <div class="text-start">
+              <p>
+                <strong>Join Date:</strong>
+                <span th:text="${userVO.regDate}"></span>
+              </p>
+              <p>
+                <strong>Last Login:</strong>
+                <span th:text="${userVO.lastLogin}"></span>
+              </p>
+            </div>
+
+            <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-4">
+              <a href="/user/modify" class="btn btn-primary">Edit Profile</a>
+
+              <!-- Withdrawal Button (Form for safety) -->
+              <form
+                action="/user/remove"
+                method="post"
+                onsubmit="return confirm('Are you sure you want to delete your account? This cannot be undone.');"
+              >
+                <button type="submit" class="btn btn-danger">Withdrawal</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

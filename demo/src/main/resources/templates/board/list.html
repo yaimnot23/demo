@@ -66,6 +66,11 @@
                   th:href="@{/board/detail(bno=${bvo.bno})}"
                   th:text="${bvo.title}"
                 ></a>
+                <i
+                  th:if="${bvo.isSecret}"
+                  class="bi bi-lock-fill ms-1"
+                  style="color: #666"
+                ></i>
               </td>
               <td th:text="${bvo.writer}"></td>
               <td th:text="${bvo.regDate}"></td>
@@ -76,7 +81,6 @@
           >Post Register</a
         >
       </div>
-
 
       <!-- 페이지 네이션 -->
       <nav aria-label="...">

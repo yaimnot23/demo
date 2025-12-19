@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html
+  lang="en"
+  xmlns:th="http://www.thymeleaf.org"
+  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorate="~{layout/layout}"
+>
+  <head>
+    <title>Edit Profile</title>
+  </head>
+  <body>
+    <div layout:fragment="content">
+      <div class="container-sm mt-5" style="max-width: 600px">
+        <h3 class="mb-4">Edit Profile</h3>
+
+        <form action="/user/modify" method="post" enctype="multipart/form-data">
+          <input type="hidden" name="email" th:value="${userVO.email}" />
+
+          <div class="mb-3 text-center">
+            <img
+              th:if="${userVO.profileImage != null}"
+              th:src="@{|/image/${userVO.profileImage}|}"
+              id="preview"
+              class="rounded-circle img-thumbnail mb-2"
+              style="width: 150px; height: 150px; object-fit: cover"
+            />
+            <img
+              th:unless="${userVO.profileImage != null}"
+              src="https://via.placeholder.com/150"
+              id="preview"
+              class="rounded-circle img-thumbnail mb-2"
+              style="width: 150px; height: 150px; object-fit: cover"
+            />
+            <div>
+              <label
+                for="file"
+                class="form-label btn btn-outline-secondary btn-sm"
+                >Change Image</label
+              >
+              <input
+                type="file"
+                name="file"
+                id="file"
+                class="form-control d-none"
+                onchange="readURL(this);"
+              />
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Email</label>
+            <input
+              type="text"
+              class="form-control"
+              th:value="${userVO.email}"
+              readonly
+              disabled
+            />
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Nickname</label>
+            <input
+              type="text"
+              class="form-control"
+              name="nickName"
+              th:value="${userVO.nickName}"
+            />
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">New Password</label>
+            <input
+              type="password"
+              class="form-control"
+              name="pwd"
+              placeholder="현 비밀번호를 유지하려면 빈칸으로 두세요."
+            />
+          </div>
+
+          <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+            <a href="/user/detail" class="btn btn-secondary">Cancel</a>
+            <button type="submit" class="btn btn-primary">Save Changes</button>
+          </div>
+        </form>
+
+        <script>
+          function readURL(input) {
+            if (input.files && input.files[0]) {
+              var reader = new FileReader();
+              reader.onload = function (e) {
+                document.getElementById("preview").src = e.target.result;
+              };
+              reader.readAsDataURL(input.files[0]);
+            }
+          }
+        </script>
+      </div>
+    </div>
+  </body>
+</html>

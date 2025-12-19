@@ -18,6 +18,6 @@ public class BoardVO {
     private String isDel;
     private Date regDate;
     private int likeCount;
-    private boolean isSecret;
+    private Boolean isSecret;
     private String password;
 }
