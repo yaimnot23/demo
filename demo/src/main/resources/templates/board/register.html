@@ -44,8 +44,9 @@
               type="text"
               class="form-control"
               id="writer"
-              th:field="*{writer}"
-              placeholder="Writer name"
+              th:value="${#authentication.name}"
+              name="writer"
+              readonly
             />
           </div>
           <div class="mb-3">

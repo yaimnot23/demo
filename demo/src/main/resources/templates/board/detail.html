@@ -61,10 +61,20 @@
         </form>
 
         <a href="/board/list" class="btn btn-secondary">List</a>
-        <button type="button" id="modBtn" class="btn btn-warning">
-          Modify
-        </button>
-        <button type="button" id="delBtn" class="btn btn-danger">Delete</button>
+
+        <!-- Modify/Delete buttons only for Writer or Admin -->
+        <th:block sec:authorize="isAuthenticated()">
+          <th:block
+            th:if="${#authentication.name == boardVO.writer} or ${#authorization.expression('hasRole(''ADMIN'')')}"
+          >
+            <button type="button" id="modBtn" class="btn btn-warning">
+              Modify
+            </button>
+            <button type="button" id="delBtn" class="btn btn-danger">
+              Delete
+            </button>
+          </th:block>
+        </th:block>
         <button
           type="button"
           id="subBtn"

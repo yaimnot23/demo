@@ -4,16 +4,18 @@ import com.example.demo.domain.UserVO;
 import com.example.demo.repository.UserDAO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-@Slf4j
-@RequiredArgsConstructor
 @Service
 public class UserServiceImpl implements UserService {
 
-    private final UserDAO userDAO;
-    private final PasswordEncoder passwordEncoder;
+    @Autowired
+    private UserDAO userDAO;
+    
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Override
     public int register(UserVO userVO) {

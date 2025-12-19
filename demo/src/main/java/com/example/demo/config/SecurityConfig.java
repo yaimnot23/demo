@@ -49,6 +49,7 @@ public class SecurityConfig {
                 .usernameParameter("email")
                 .passwordParameter("pwd")
                 .loginPage("/user/login")
+                .loginProcessingUrl("/user/login")
                 .defaultSuccessUrl("/board/list")
                 .permitAll()
             )

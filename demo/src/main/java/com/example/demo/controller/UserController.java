@@ -34,5 +34,5 @@ public class UserController {
         log.info(">>> login page");
     }
     
-    // 로그인은 Security가 처리하므로 PostMapping("/login")은 필요 없음
+
 }

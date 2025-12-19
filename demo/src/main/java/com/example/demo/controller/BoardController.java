@@ -52,16 +52,28 @@ public class BoardController {
     }
 
     @PostMapping("/modify")
-    public String modify(BoardVO boardVO) {
+    public String modify(BoardVO boardVO, java.security.Principal principal, jakarta.servlet.http.HttpServletRequest request) {
         log.info("modify... boardVO : {}", boardVO);
-        boardService.modify(boardVO);
+        BoardVO original = boardService.getDetail(boardVO.getBno());
+        
+        if (principal != null && (original.getWriter().equals(principal.getName()) || request.isUserInRole("ROLE_ADMIN"))) {
+            boardService.modify(boardVO);
+        } else {
+             log.warn("Unauthorized modify attempt by {}", principal != null ? principal.getName() : "anonymous");
+        }
         return "redirect:/board/list";
     }
 
     @PostMapping("/remove")
-    public String remove(@RequestParam("bno") int bno) {
+    public String remove(@RequestParam("bno") int bno, java.security.Principal principal, jakarta.servlet.http.HttpServletRequest request) {
         log.info("remove... bno : {}", bno);
-        boardService.remove(bno);
+        BoardVO original = boardService.getDetail(bno);
+        
+        if (principal != null && (original.getWriter().equals(principal.getName()) || request.isUserInRole("ROLE_ADMIN"))) {
+            boardService.remove(bno);
+        } else {
+            log.warn("Unauthorized remove attempt by {}", principal != null ? principal.getName() : "anonymous");
+        }
         return "redirect:/board/list";
     }
     
