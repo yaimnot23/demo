@@ -20,12 +20,27 @@ public class BoardServiceImpl implements BoardService {
     }
 
     @Override
-    public List<com.example.demo.domain.BoardVO> getList() {
-        return boardDAO.getList();
+    public List<com.example.demo.domain.BoardVO> getList(com.example.demo.domain.PagingVO pgvo) {
+        return boardDAO.getList(pgvo);
+    }
+
+    @Override
+    public int getTotalCount(com.example.demo.domain.PagingVO pgvo) {
+        return boardDAO.getTotalCount(pgvo);
     }
 
     @Override
     public com.example.demo.domain.BoardVO getDetail(int bno) {
         return boardDAO.getDetail(bno);
+    }
+
+    @Override
+    public void modify(com.example.demo.domain.BoardVO boardVO) {
+        boardDAO.modify(boardVO);
+    }
+
+    @Override
+    public int remove(int bno) {
+        return boardDAO.delete(bno);
     }
 }

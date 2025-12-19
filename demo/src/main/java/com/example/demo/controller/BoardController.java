@@ -2,6 +2,8 @@ package com.example.demo.controller;
 
 
 import com.example.demo.domain.BoardVO;
+import com.example.demo.domain.PagingVO;
+import com.example.demo.handler.PagingHandler;
 import com.example.demo.service.BoardService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -33,16 +35,34 @@ public class BoardController {
     }
 
     @GetMapping("/list")
-    public void list(Model model) {
-        log.info("list...");
-        model.addAttribute("list", boardService.getList());
+    public void list(Model model, PagingVO pgvo) {
+        log.info("list... pgvo : {}", pgvo);
+        
+        // PagingHandler calculation
+        int totalCount = boardService.getTotalCount(pgvo);
+        PagingHandler ph = new PagingHandler(pgvo, totalCount);
+        
+        model.addAttribute("list", boardService.getList(pgvo));
+        model.addAttribute("ph", ph);
     }
 
     @GetMapping("/detail")
-    public String detail(Model model, @RequestParam("bno") int bno) {
-        BoardVO boardVO = boardService.getDetail(bno);
-        model.addAttribute("boardVO", boardVO);
-        return "board/detail";  
+    public void detail(Model model, @RequestParam("bno") int bno) {
+        model.addAttribute("boardVO", boardService.getDetail(bno));
+    }
+
+    @PostMapping("/modify")
+    public String modify(BoardVO boardVO) {
+        log.info("modify... boardVO : {}", boardVO);
+        boardService.modify(boardVO);
+        return "redirect:/board/list";
+    }
+
+    @PostMapping("/remove")
+    public String remove(@RequestParam("bno") int bno) {
+        log.info("remove... bno : {}", bno);
+        boardService.remove(bno);
+        return "redirect:/board/list";
     }
     
 }

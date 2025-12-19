@@ -8,11 +8,48 @@
         VALUES (#{title}, #{content}, #{writer}, #{password})
     </insert>
 
+    <sql id="search">
+        <if test="type != null">
+            <trim prefix="and (" suffix=")" prefixOverrides="or">
+                <foreach collection="typeToArray" item="type">
+                    <trim prefix="or">
+                        <if test='"t".equals(type)'>
+                            title like concat('%', #{keyword}, '%')
+                        </if>
+                        <if test='"c".equals(type)'>
+                            content like concat('%', #{keyword}, '%')
+                        </if>
+                        <if test='"w".equals(type)'>
+                            writer like concat('%', #{keyword}, '%')
+                        </if>
+                    </trim>
+                </foreach>
+            </trim>
+        </if>
+    </sql>
+
     <select id="getList" resultType="com.example.demo.domain.BoardVO">
-        SELECT * FROM board ORDER BY bno DESC
+        SELECT * FROM board
+        WHERE is_del = 'N'
+        <include refid="search"></include>
+        ORDER BY bno DESC
+        LIMIT #{pageStart}, #{qty}
+    </select>
+
+    <select id="getTotalCount" resultType="int">
+        SELECT count(bno) FROM board WHERE is_del = 'N'
+        <include refid="search"></include>
     </select>
 
     <select id="getDetail" resultType="com.example.demo.domain.BoardVO">
         SELECT * FROM board WHERE bno = #{bno}
     </select>
+
+    <update id="modify">
+        UPDATE board SET title = #{title}, content = #{content} WHERE bno = #{bno}
+    </update>
+
+    <update id="delete">
+        UPDATE board SET is_del = 'Y' WHERE bno = #{bno}
+    </update>
 </mapper>

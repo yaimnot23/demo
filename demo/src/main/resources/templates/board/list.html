@@ -12,6 +12,43 @@
     <div layout:fragment="content">
       <div class="container-sm mt-5">
         <h3>Board List</h3>
+
+        <form action="/board/list" method="get" class="d-flex mb-3">
+          <select name="type" class="form-select w-auto me-2">
+            <option value="" th:selected="${ph.pgvo.type eq null}">
+              Choose...
+            </option>
+            <option value="t" th:selected="${ph.pgvo.type eq 't'}">
+              Title
+            </option>
+            <option value="c" th:selected="${ph.pgvo.type eq 'c'}">
+              Content
+            </option>
+            <option value="w" th:selected="${ph.pgvo.type eq 'w'}">
+              Writer
+            </option>
+            <option value="tc" th:selected="${ph.pgvo.type eq 'tc'}">
+              Title + Content
+            </option>
+            <option value="wc" th:selected="${ph.pgvo.type eq 'wc'}">
+              Writer + Content
+            </option>
+            <option value="tw" th:selected="${ph.pgvo.type eq 'tw'}">
+              Title + Writer
+            </option>
+            <option value="twc" th:selected="${ph.pgvo.type eq 'twc'}">
+              All
+            </option>
+          </select>
+          <input
+            type="text"
+            name="keyword"
+            class="form-control me-2"
+            placeholder="Search..."
+            th:value="${ph.pgvo.keyword}"
+          />
+          <button class="btn btn-outline-secondary">Search</button>
+        </form>
         <table class="table table-striped mt-3">
           <thead>
             <tr>
@@ -39,6 +76,40 @@
           >Post Register</a
         >
       </div>
+
+
+      <!-- 페이지 네이션 -->
+      <nav aria-label="...">
+        <ul class="pagination justify-content-center">
+          <li class="page-item" th:if="${ph.prev}">
+            <a
+              class="page-link"
+              th:href="@{/board/list(pageNo=${ph.startPage}-1, qty=${ph.pgvo.qty}, type=${ph.pgvo.type}, keyword=${ph.pgvo.keyword})}"
+              >Previous</a
+            >
+          </li>
+
+          <li
+            th:each="i : ${#numbers.sequence(ph.startPage, ph.endPage)}"
+            class="page-item"
+            th:classappend="${ph.pgvo.pageNo == i} ? 'active' : ''"
+          >
+            <a
+              class="page-link"
+              th:href="@{/board/list(pageNo=${i}, qty=${ph.pgvo.qty}, type=${ph.pgvo.type}, keyword=${ph.pgvo.keyword})}"
+              th:text="${i}"
+            ></a>
+          </li>
+
+          <li class="page-item" th:if="${ph.next}">
+            <a
+              class="page-link"
+              th:href="@{/board/list(pageNo=${ph.endPage+1}, qty=${ph.pgvo.qty}, type=${ph.pgvo.type}, keyword=${ph.pgvo.keyword})}"
+              >Next</a
+            >
+          </li>
+        </ul>
+      </nav>
     </div>
   </body>
 </html>
