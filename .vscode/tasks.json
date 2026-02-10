@@ -1,0 +1,18 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "gradle-build",
+            "type": "shell",
+            "command": "./gradlew assemble",
+            "options": {
+                "cwd": "${workspaceFolder}/demo"
+            },
+            "problemMatcher": [],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        }
+    ]
+}
